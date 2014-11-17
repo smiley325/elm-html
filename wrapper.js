@@ -77,6 +77,33 @@ Elm.Native.Html.make = function(elm) {
         return pair('style', listToObject(properties));
     }
 
+    function preventDefault(name) {
+        function createListener(handle, convert) {
+            delegator.listenTo(name);
+            function eventHandler(event) {
+                event.preventDefault();
+            }
+            return pair(name, DataSetHook(eventHandler));
+        }
+        return F2(createListener);
+    }
+
+    function onDefault(name, coerce) {
+        function createListener(handle, convert) {
+            delegator.listenTo(name);
+            function eventHandler(event) {
+                if (event.defaultPrevented) return;     // Give up if default prevented
+
+                var value = coerce(event);
+                if (value.ctor === 'Just') {
+                    elm.notify(handle.id, convert(value._0));
+                }
+            }
+            return pair(name, DataSetHook(eventHandler));
+        }
+        return F2(createListener);
+    }
+
     function on(name, coerce) {
         function createListener(handle, convert) {
             delegator.listenTo(name);
