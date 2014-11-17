@@ -174,6 +174,12 @@ ideas.
 on : String -> Get value -> Handle a -> (value -> a) -> Attribute
 on = Native.Html.on
 
+onDefault : String -> Get value -> Handle a -> (value -> a) -> Attribute
+onDefault = Native.Html.onDefault
+
+preventDefault : String -> Attribute
+preventDefault = Native.Html.preventDefault
+
 {-| This lets us create custom getters that require that certain conditions
 are met. For example, we can create an event that only triggers if the user
 releases the ENTER key:
