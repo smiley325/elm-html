@@ -1606,14 +1606,11 @@ Elm.Native.Html.make = function(elm) {
     }
 
     function preventDefault(name) {
-        function createListener(handle, convert) {
-            delegator.listenTo(name);
-            function eventHandler(event) {
-                event.preventDefault();
-            }
-            return pair(name, DataSetHook(eventHandler));
+        delegator.listenTo(name);
+        function eventHandler(event) {
+            event.preventDefault();
         }
-        return F2(createListener);
+        return pair(name, DataSetHook(eventHandler));
     }
 
     function onDefault(name, coerce) {
@@ -1621,6 +1618,7 @@ Elm.Native.Html.make = function(elm) {
             delegator.listenTo(name);
             function eventHandler(event) {
                 if (event.defaultPrevented) return;     // Give up if default prevented
+                // Alternative is to have getDefaultPrevented(event) and use when, but that seems circuitous for now
 
                 var value = coerce(event);
                 if (value.ctor === 'Just') {
@@ -1880,6 +1878,8 @@ Elm.Native.Html.make = function(elm) {
         text: text,
         style: style,
         on: F2(on),
+        onDefault: F2(onDefault),
+        preventDefault: preventDefault,
 
         pair: F2(pair),
 
