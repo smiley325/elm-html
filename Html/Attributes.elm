@@ -151,7 +151,7 @@ instead.
 -}
 tabindex : Int -> Attribute
 tabindex n =
-    attr "tabindex" (show n)
+    attr "tabIndex" (show n)
 
 
 -- HEADER STUFF
@@ -432,7 +432,7 @@ list value =
 -}
 maxlength : Int -> Attribute
 maxlength n =
-    attr "maxlength" (show n)
+    attr "maxLength" (show n)
 
 {-| Defines which HTTP method to use when submitting a `form`. Can be GET
 (default) or POST.
@@ -473,7 +473,7 @@ pattern value =
 {-| Indicates whether an `input` or `textarea` can be edited. -}
 readonly : Bool -> Attribute
 readonly bool =
-    toggle "readonly" bool
+    toggle "readOnly" bool
 
 {-| Indicates whether this element is required to fill out or not.
 For `input`, `select`, and `textarea`.
