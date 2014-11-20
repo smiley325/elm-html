@@ -720,7 +720,7 @@ For `td` and `th`.
 -}
 colspan : String -> Attribute
 colspan value =
-    attr "colspan" value
+    attr "colSpan" value
 
 {-| A space separated list of element IDs indicating which `th` elements are
 headers for this cell. For `td` and `th`.
@@ -734,7 +734,7 @@ For `td` and `th`.
 -}
 rowspan : String -> Attribute
 rowspan value =
-    attr "rowspan" value
+    attr "rowSpan" value
 
 {-| Specifies the scope of a header cell `th`. Possible values are: col, row,
 colgroup, rowgroup.
