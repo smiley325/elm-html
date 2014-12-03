@@ -339,7 +339,7 @@ Elm.Native.Html.make = function(elm) {
 
         pair: F2(pair),
 
-        'do': F2(_do),
+        $do: F3(_do),
         getMouseEvent: getMouseEvent,
         getKeyboardEvent: getKeyboardEvent,
         getChecked: getChecked,
