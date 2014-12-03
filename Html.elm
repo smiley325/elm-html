@@ -144,6 +144,7 @@ prop = Native.Html.pair
 -- EVENTS
 
 data Get a = Get
+data Set a = Set
 
 {-| This is the most general way to handle events. Check out `Html.Events` for
 a gentler introduction to event handlers.
@@ -174,10 +175,17 @@ ideas.
 on : String -> Get value -> Handle a -> (value -> a) -> Attribute
 on = Native.Html.on
 
-onDefault : String -> Get value -> Handle a -> (value -> a) -> Attribute
-onDefault = Native.Html.onDefault
+{-| The `do` combinator allows us to chain Get's together, where only the
+result of the first getter gets through. This is only useful for getters that
+have limited side-effects, like the preventDefault 'getter'.
 
-preventDefault : String -> Attribute
+    getAnything `do` preventDefault
+-}
+
+do : Get a -> Get b -> Get a
+do = Native.Html.do
+
+preventDefault : Get ()
 preventDefault = Native.Html.preventDefault
 
 {-| This lets us create custom getters that require that certain conditions

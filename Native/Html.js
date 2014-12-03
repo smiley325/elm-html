@@ -489,7 +489,7 @@ if (typeof document !== 'undefined') {
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"min-document":1}],12:[function(require,module,exports){
 module.exports=require(4)
-},{"C:\\Users\\smile_000\\Documents\\Work\\StudyCloud\\elm-html\\node_modules\\data-set\\node_modules\\individual\\index.js":4}],13:[function(require,module,exports){
+},{"c:\\Users\\smile_000\\Documents\\Work\\StudyCloud\\elm-html\\node_modules\\data-set\\node_modules\\individual\\index.js":4}],13:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -516,9 +516,9 @@ if (typeof Object.create === 'function') {
 
 },{}],14:[function(require,module,exports){
 module.exports=require(5)
-},{"./hidden-store.js":15,"C:\\Users\\smile_000\\Documents\\Work\\StudyCloud\\elm-html\\node_modules\\data-set\\node_modules\\weakmap-shim\\create-store.js":5}],15:[function(require,module,exports){
+},{"./hidden-store.js":15,"c:\\Users\\smile_000\\Documents\\Work\\StudyCloud\\elm-html\\node_modules\\data-set\\node_modules\\weakmap-shim\\create-store.js":5}],15:[function(require,module,exports){
 module.exports=require(6)
-},{"C:\\Users\\smile_000\\Documents\\Work\\StudyCloud\\elm-html\\node_modules\\data-set\\node_modules\\weakmap-shim\\hidden-store.js":6}],16:[function(require,module,exports){
+},{"c:\\Users\\smile_000\\Documents\\Work\\StudyCloud\\elm-html\\node_modules\\data-set\\node_modules\\weakmap-shim\\hidden-store.js":6}],16:[function(require,module,exports){
 var inherits = require("inherits")
 
 var ALL_PROPS = [
@@ -1421,7 +1421,7 @@ function isThunk(t) {
 
 },{}],38:[function(require,module,exports){
 module.exports=require(31)
-},{"C:\\Users\\smile_000\\Documents\\Work\\StudyCloud\\elm-html\\node_modules\\virtual-dom\\vtree\\is-vhook.js":31}],39:[function(require,module,exports){
+},{"c:\\Users\\smile_000\\Documents\\Work\\StudyCloud\\elm-html\\node_modules\\virtual-dom\\vtree\\is-vhook.js":31}],39:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualNode
@@ -1439,7 +1439,7 @@ function isWidget(w) {
 
 },{}],41:[function(require,module,exports){
 module.exports=require(35)
-},{"C:\\Users\\smile_000\\Documents\\Work\\StudyCloud\\elm-html\\node_modules\\virtual-dom\\vtree\\version.js":35}],42:[function(require,module,exports){
+},{"c:\\Users\\smile_000\\Documents\\Work\\StudyCloud\\elm-html\\node_modules\\virtual-dom\\vtree\\version.js":35}],42:[function(require,module,exports){
 var version = require("./version")
 var isVNode = require("./is-vnode")
 var isWidget = require("./is-widget")
@@ -1605,31 +1605,6 @@ Elm.Native.Html.make = function(elm) {
         return pair('style', listToObject(properties));
     }
 
-    function preventDefault(name) {
-        delegator.listenTo(name);
-        function eventHandler(event) {
-            event.preventDefault();
-        }
-        return pair(name, DataSetHook(eventHandler));
-    }
-
-    function onDefault(name, coerce) {
-        function createListener(handle, convert) {
-            delegator.listenTo(name);
-            function eventHandler(event) {
-                if (event.defaultPrevented) return;     // Give up if default prevented
-                // Alternative is to have getDefaultPrevented(event) and use when, but that seems circuitous for now
-
-                var value = coerce(event);
-                if (value.ctor === 'Just') {
-                    elm.notify(handle.id, convert(value._0));
-                }
-            }
-            return pair(name, DataSetHook(eventHandler));
-        }
-        return F2(createListener);
-    }
-
     function on(name, coerce) {
         function createListener(handle, convert) {
             delegator.listenTo(name);
@@ -1642,6 +1617,16 @@ Elm.Native.Html.make = function(elm) {
             return pair(name, DataSetHook(eventHandler));
         }
         return F2(createListener);
+    }
+
+    function preventDefault(event) {
+        event.preventDefault();
+        return Maybe.Just(Utils._Tuple0);
+    }
+
+    function _do(getterA, getterB, event) {
+        getterB(event);
+        return getterA(event);
     }
 
     function filterMap(f, getter) {
@@ -1878,11 +1863,11 @@ Elm.Native.Html.make = function(elm) {
         text: text,
         style: style,
         on: F2(on),
-        onDefault: F2(onDefault),
         preventDefault: preventDefault,
 
         pair: F2(pair),
 
+        'do': _do,
         getMouseEvent: getMouseEvent,
         getKeyboardEvent: getKeyboardEvent,
         getChecked: getChecked,

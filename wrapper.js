@@ -77,31 +77,6 @@ Elm.Native.Html.make = function(elm) {
         return pair('style', listToObject(properties));
     }
 
-    function preventDefault(name) {
-        delegator.listenTo(name);
-        function eventHandler(event) {
-            event.preventDefault();
-        }
-        return pair(name, DataSetHook(eventHandler));
-    }
-
-    function onDefault(name, coerce) {
-        function createListener(handle, convert) {
-            delegator.listenTo(name);
-            function eventHandler(event) {
-                if (event.defaultPrevented) return;     // Give up if default prevented
-                // Alternative is to have getDefaultPrevented(event) and use when, but that seems circuitous for now
-
-                var value = coerce(event);
-                if (value.ctor === 'Just') {
-                    elm.notify(handle.id, convert(value._0));
-                }
-            }
-            return pair(name, DataSetHook(eventHandler));
-        }
-        return F2(createListener);
-    }
-
     function on(name, coerce) {
         function createListener(handle, convert) {
             delegator.listenTo(name);
@@ -114,6 +89,16 @@ Elm.Native.Html.make = function(elm) {
             return pair(name, DataSetHook(eventHandler));
         }
         return F2(createListener);
+    }
+
+    function preventDefault(event) {
+        event.preventDefault();
+        return Maybe.Just(Utils._Tuple0);
+    }
+
+    function _do(getterA, getterB, event) {
+        getterB(event);
+        return getterA(event);
     }
 
     function filterMap(f, getter) {
@@ -350,11 +335,11 @@ Elm.Native.Html.make = function(elm) {
         text: text,
         style: style,
         on: F2(on),
-        onDefault: F2(onDefault),
         preventDefault: preventDefault,
 
         pair: F2(pair),
 
+        'do': _do,
         getMouseEvent: getMouseEvent,
         getKeyboardEvent: getKeyboardEvent,
         getChecked: getChecked,
